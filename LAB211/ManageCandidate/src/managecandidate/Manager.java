@@ -13,15 +13,15 @@ public class Manager {
         while (true) {
             String id;
             while (true) {
-                id = validation.inputString("Enter first name:", "[A-Za-z0-9\\s]+");
+                id = validation.inputString("Enter first name:", "^[A-Za-z0-9\\s]*$");
                 if (validation.checkIdExist(candidates, id)) {
                     break;
                 } else {
                     System.out.println("ID is existed");
                 }
             }
-            String firstName = validation.inputString("Enter first name:", "[A-Za-z\\s]+");
-            String lastName = validation.inputString("Enter last name:", "[A-Za-z\\s]+");
+            String firstName = validation.inputString("Enter first name:", "^[A-Za-z\\s]*$");
+            String lastName = validation.inputString("Enter last name:", "^[A-Za-z\\s]*$");
             int birthDate = validation.inputInt("Enter bithdate:", 1900,Calendar.getInstance().get(Calendar.YEAR));
             String address = validation.inputString("Enter address", ".+");
             String phone = validation.inputString("Enrer phone:", "(0[3|5|7|8|9])+([0-9]{8})");

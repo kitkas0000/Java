@@ -34,15 +34,15 @@ public class Manager {
 
     public void createStudent() {
         while (true) {
-            String id = validation.inputString("Enter id: ", "[A-Za-z0-9\\s]");
+            String id = validation.inputString("Enter id: ", "^[A-Za-z0-9\\s]*$");
             Student student = checkIdExist(id);
             String name;
             if (student == null) {
-                name = validation.inputString("Enter Name: ", "[A-Za-z\\s]");
+                name = validation.inputString("Enter Name: ", "^[A-Za-z\\s]*$");
             } else {
                 name = student.getStudentName();
             }
-            String semester = validation.inputString("Enter semester: ", "[A-Za-z0-9\\s]");
+            String semester = validation.inputString("Enter semester: ", "^[A-Za-z0-9\\s]*$");
             String course = validation.checkInputCourse("Enter course: ");
             if (checkStudentExist(id, name, semester, course)) {
                 students.add(new Student(id, name, semester, course));
@@ -60,7 +60,7 @@ public class Manager {
     }
 
     public void findAndSort() {
-        String name = validation.inputString("Enter Name: ", "[A-Za-z\\s]+");
+        String name = validation.inputString("Enter Name: ", "^[A-Za-z\\s]*$");
         Collections.sort(students);
         if (students.isEmpty()) {
             System.out.println("No students");
@@ -74,7 +74,7 @@ public class Manager {
     }
 
     public void updateOrDelete() {
-        String id = validation.inputString("Enter id ", "[A-Za-z0-9\\s]+");
+        String id = validation.inputString("Enter id ", "^[A-Za-z0-9\\s]*$");
         ArrayList<Student> listStudentFindByID = getListStudentById(id);
         if (listStudentFindByID.isEmpty()) {
             System.out.println("Not found student.");
@@ -82,8 +82,8 @@ public class Manager {
             Student student = getStudentByListFound(listStudentFindByID);
             if (validation.checkInputUD("Do you want update or delete")) {
                 while (true) {
-                    String name = validation.inputString("Enter name: ", "[A-Za-z\\s]+");;
-                    String semester = validation.inputString("Enter semester: ", "[A-Za-z\\s]+");
+                    String name = validation.inputString("Enter name: ", "^[A-Za-z\\s]*$");;
+                    String semester = validation.inputString("Enter semester: ", "^[A-Za-z\\s]*$");
                     String course = validation.checkInputCourse("Enter course: ");
                     if (!checkStudentExist(id, name, semester, course)) {
                         System.out.println("Duplicate");

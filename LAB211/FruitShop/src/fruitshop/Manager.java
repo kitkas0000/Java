@@ -28,10 +28,10 @@ public class Manager {
                 System.out.println("ID is existed");
                 continue;
             }
-            String fruitName = validation.inputString("Enter name:", "[A-Za-z\\s]+");
+            String fruitName = validation.inputString("Enter name:", "^[A-Za-z\\s]*$");
             double price = validation.inputDouble("Enter price:", 1, Double.MAX_VALUE);
             int quantity = validation.inputInt("Enter quantity:", 1, Integer.MAX_VALUE);
-            String origin = validation.inputString("Enter origin:", "[A-Za-z\\s]+");
+            String origin = validation.inputString("Enter origin:", "^[A-Za-z\\s]*$");
             fruits.add(new Fruit(fruitId, fruitName, price, quantity, origin));
             if (!validation.checkInputYN("Do you want to continue?")) {
                 break;
@@ -122,7 +122,7 @@ public class Manager {
     }
 
     public String setName() {
-        String name = validation.inputString("Enter name:", "[A-Za-z\\s]+");
+        String name = validation.inputString("Enter name:", "^[A-Za-z\\s]*$");
         int count = 0;
         for (String name_key : orders.keySet()) {
             String real_name = name_key.split("#")[0];
