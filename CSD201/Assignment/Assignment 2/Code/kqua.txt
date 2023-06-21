@@ -1,0 +1,16 @@
+
+HExxxxx	 (A,5,9) (E,2,5) (D,8,6) (F,-6,7) (X,4,5) (Y,6,-7) 
+HExxxxx	 
+HExxxxx	 (A,5,9) (E,2,5) (D,8,6) (F,-6,7) (X,4,5) (Y,6,-7) 
+HExxxxx	 (A,5,9) (E,2,5) (D,8,6) (F,-6,7) (X,4,5) 
+HExxxxx	 test case 2-1	Not OK
+HExxxxx	 (C1,9,2) (D,6,2) (F,2,3) (Z,8,1) (H,1,7) (I,3,9) (Z1,7,1) (J,5,5) (K,4,1) 
+HExxxxx	 
+HExxxxx	 (C1,9,2) (D,6,2) (F,2,3) (Z,8,1) (H,1,7) (I,3,9) (Z1,7,1) (J,5,5) (K,4,1) 
+HExxxxx	 (H,1,7) (I,3,9) (J,5,5) 
+HExxxxx	 test case 2-5	Not OK
+HExxxxx	 (A,5,9) (E,2,5) (D,8,6) (F,-6,7) (X,4,5) (Y,6,-7) 
+HExxxxx	 (A,5,9) (E,2,5) (D,8,6) (F,-6,7) (X,4,5) (Y,6,-7) 
+HExxxxx	 (A,5,9) (E,2,5) (D,8,6) (F,-6,7) (X,4,5) (Y,6,-7) 
+HExxxxx	 (A,5,9) (E,2,5) (D,8,6) (F,-6,7) (X,4,5) (Y,6,-7) 
+HExxxxx	 test case 1-1	OK
