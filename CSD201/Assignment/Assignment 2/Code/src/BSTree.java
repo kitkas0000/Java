@@ -1,6 +1,7 @@
 
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.util.Stack;
 
 /* This program contains 2 parts: (1) and (2)
    YOUR TASK IS TO COMPLETE THE PART  (2)  ONLY
@@ -308,11 +309,106 @@ public class BSTree {
         /*You must keep statements pre-given in this function.
       Your task is to insert statements here, just after this comment,
       to complete the question in the exam paper.*/
+        Node fifthNode = findFifthNode(root); // Find the fifth node after in-order traversal
+        deleteByCopy(fifthNode);
 
         //------------------------------------------------------------------------------------
         inOrder(root, f);
         f.writeBytes("\r\n");
         f.close();
+    }
+
+    Node findFifthNode(Node root) {
+        int count = 1;
+        Node fifthNode = null;
+        Stack<Node> stack = new Stack<>();
+        Node current = root;
+
+        while (current != null || !stack.isEmpty()) {
+            while (current != null) {
+                stack.push(current);
+                current = current.left;
+            }
+
+            current = stack.pop();
+            count++;
+
+            if (count == 5) {
+                fifthNode = current;
+                break;
+            }
+
+            current = current.right;
+        }
+
+        return fifthNode;
+    }
+
+    void deleteByCopy(Node p) {
+        if (p == null) {
+            return;
+        }
+        Node f = findParent(root, p);
+        // 1. p has no child
+        if (p.left == null && p.right == null) {
+            if (f == null) {
+                root = null;
+            } else if (f.left == p) {
+                f.left = null;
+            } else {
+                f.right = null;
+            }
+        } // 2. p has left child only
+        else if (p.left != null && p.right == null) {
+            if (f == null) {
+                root = p.left;
+            } else if (f.left == p) {
+                f.left = p.left;
+            } else {
+                f.right = p.left;
+            }
+        } // 3. p has right child only
+        else if (p.left == null && p.right != null) {
+            if (f == null) {
+                root = p.right;
+            } else if (f.left == p) {
+                f.left = p.right;
+            } else {
+                f.right = p.right;
+            }
+        } // 4. p has both children
+        else if (p.left != null && p.right != null) {
+            // Find q as the rightmost node in the left subtree of p
+            Node q = p.left;
+            Node qParent = p;
+            while (q.right != null) {
+                qParent = q;
+                q = q.right;
+            }
+            // Replace p's info with q's info
+            p.info = q.info;
+            // Delete q by copying
+            if (qParent.left == q) {
+                qParent.left = q.left;
+            } else {
+                qParent.right = q.left;
+            }
+        }
+    }
+
+// Function to find the parent of a given node in the tree
+    Node findParent(Node root, Node node) {
+        if (root == null || root == node) {
+            return null;
+        }
+        if (root.left == node || root.right == node) {
+            return root;
+        }
+        Node leftResult = findParent(root.left, node);
+        if (leftResult != null) {
+            return leftResult;
+        }
+        return findParent(root.right, node);
     }
 
     void f7(int line) throws Exception {
@@ -330,14 +426,110 @@ public class BSTree {
         /*You must keep statements pre-given in this function.
       Your task is to insert statements here, just after this comment,
       to complete the question in the exam paper.*/
+        Node p = findNodeByIndex(root, 6); // Find the 6th node (p) in post-order traversal
+        deleteByMerging(p);
 
         //------------------------------------------------------------------------------------
         postOrder(root, f);
         f.writeBytes("\r\n");
         f.close();
     }
-    //=============================================================
 
+    Node findNodeByIndex(Node node, int index) {
+        // Find the node with the specified index in post-order traversal
+        if (node == null) {
+            return null;
+        }
+
+        // Get the sizes of the left and right subtrees
+        int leftSize = getSize(node.left);
+        int rightSize = getSize(node.right);
+
+        // Check if the node itself is the desired node
+        if (leftSize + rightSize + 1 == index) {
+            return node;
+        }
+
+        // Check if the desired node is in the left subtree
+        if (leftSize >= index) {
+            return findNodeByIndex(node.left, index);
+        }
+
+        // Adjust the index to account for the nodes in the left subtree
+        index -= leftSize;
+
+        // Check if the desired node is in the right subtree
+        return findNodeByIndex(node.right, index);
+    }
+
+    int getSize(Node node) {
+        // Get the size of the subtree rooted at the specified node
+        if (node == null) {
+            return 0;
+        }
+        return getSize(node.left) + getSize(node.right) + 1;
+    }
+
+    void deleteByMerging(Node p) {
+        Node f = findParent(root, p); // Find the parent node (f) of p
+
+        // 1. p has no child
+        if (p.left == null && p.right == null) {
+            if (f == null) {
+                root = null;
+            } else if (f.left == p) {
+                f.left = null;
+            } else {
+                f.right = null;
+            }
+        } // 2. p has left child only
+        else if (p.left != null && p.right == null) {
+            if (f == null) {
+                root = p.left;
+            } else if (f.left == p) {
+                f.left = p.left;
+            } else {
+                f.right = p.left;
+            }
+        } // 3. p has right child only
+        else if (p.left == null && p.right != null) {
+            if (f == null) {
+                root = p.right;
+            } else if (f.left == p) {
+                f.left = p.right;
+            } else {
+                f.right = p.right;
+            }
+        } // 4. p has both child
+        else if (p.left != null && p.right != null) {
+            // Find q as the rightmost node in the left subtree of p
+            Node q = p.left;
+            Node qParent = p;
+            while (q.right != null) {
+                qParent = q;
+                q = q.right;
+            }
+
+            // Move the right subtree of p to the rightmost node (q) in the left subtree
+            q.right = p.right;
+
+            // Update the parent of p to point to the left subtree of p
+            if (f == null) {
+                root = p.left;
+            } else if (f.left == p) {
+                f.left = p.left;
+            } else {
+                f.right = p.left;
+            }
+
+            // Update the parent of q if q is not the left child of p
+            if (qParent != p) {
+                qParent.right = null;
+            }
+        }
+    }
+
+    //=============================================================
     void f8(int line) throws Exception {
         clear();
         loadData(line);
